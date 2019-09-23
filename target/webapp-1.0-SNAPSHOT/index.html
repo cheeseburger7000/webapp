@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+</head>
+<body>
+    <h1>Welcome to my website.</h1>
+    <!-- ${pageContext.request.contextPath} html页面中这样是无法获取到项目的根路径的，原因很简单，jsp会被tomcat编译成class文件。但html不会。 -->
+    <button id="btn">点我异步请求JSON数据</button>
+
+    <script src="./script/jquery.js"></script>
+    <script>
+        var sendPost = function () {
+            var user = {
+                "userName": "shaohsiung",
+                "age": 18,
+                "city": "厦门"
+            }
+
+            $.ajax({
+                type: "POST",
+                contentType: "application/x-www-form-urlencoded",
+                url: "/json",
+                //data : JSON.stringify(user), // {"userName":"shaohsiung","age":18,"city":"厦门"}:
+                data: user,
+                success: function (result) {
+                    console.log('post请求成功！ result: ');
+                    console.log(result);
+                },
+                error: function (e) {
+                    console.log('post请求错误！ e: ');
+                    console.log(e);
+                }
+            })
+        }
+
+        var sendGet = function () {
+            $.ajax({
+                type: "get",
+                url: "/json?userName=john&age=20&city=晋江",
+                success: function (result) {
+                    console.log('get请求成功！ result: ');
+                    console.log(result);
+                },
+                error: function (e) {
+                    console.log('get请求错误！ e: ');
+                    console.log(e);
+                }
+            })
+        }
+
+        $('#btn').click(sendGet)
+        $('#btn').click(sendPost)
+
+        //JSON.parse()
+    </script>
+</body>
+</html>
